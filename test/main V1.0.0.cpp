@@ -1,3 +1,8 @@
+/*
+軟體版本 V1.0.0
+硬體版本  第一版
+當感測到障礙物用伺服馬達將整體機構抬高
+*/
 #include <Arduino.h>
 #include <ulatrasound.h>
 #include <Servo.h>
