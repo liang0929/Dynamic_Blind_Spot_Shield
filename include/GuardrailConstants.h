@@ -12,6 +12,6 @@
 #define switchPin 4
 
 #define enforcementMode 13
-#define THRESHOLD 35
+#define THRESHOLD 20
 
 #endif /* FB021590_DF7E_47B9_A601_131F9A9817EF */
