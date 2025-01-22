@@ -3,9 +3,9 @@
 
 bool turn = false;
 
-int US1SafeDistance = 20;
-int US2SafeDistance = 15;
-int US3SafeDistance = 10;
+int US1SafeDistance = 50;
+int US2SafeDistance = 40;
+int US3SafeDistance = 30;
 
 int US1Trig = 2;
 int US1Echo = 3;
@@ -17,7 +17,7 @@ int US3Echo = 7;
 int WarnLight = A0;
 int contralSirenSound = A1;
 int interruptPin = A2;
-int laser = A4;
+int laser = A5;
 void setup(){
     Serial.begin(9600);
 
@@ -28,7 +28,7 @@ void setup(){
     pinMode(contralSirenSound,OUTPUT);
     pinMode(WarnLight,OUTPUT);
     pinMode(laser,OUTPUT);
-    pinMode(turn,INPUT);
+    pinMode(interruptPin,INPUT_PULLUP);
     digitalWrite(laser, LOW);
 }
 
@@ -37,13 +37,12 @@ void loop(){
     float US2Val = Ulatrasound(US2Trig, US2Echo);
     float US3Val = Ulatrasound(US3Trig, US3Echo);
     bool inWarnDistance = US1Val < US1SafeDistance || US2Val < US2SafeDistance || US3Val < US3SafeDistance;  //判斷是否有人進入死角
-    Serial.println(US1Val);
     digitalWrite(contralSirenSound, LOW);  //關閉警報聲
     digitalWrite(WarnLight, LOW);
-
-    turn = digitalRead(interruptPin); //讀取有沒有打方向燈
-    Serial.println(turn);
-    if(turn)
+    
+      //讀取有沒有打方向燈
+    Serial.println(digitalRead(interruptPin));
+    if(!digitalRead(interruptPin))
     {
         if (inWarnDistance)
         {
@@ -53,8 +52,9 @@ void loop(){
         {
             digitalWrite(contralSirenSound, LOW);  //關閉警報聲
             digitalWrite(WarnLight, LOW);
-            
         } 
     }
+    digitalWrite(laser, LOW);
+    delay(10);
     
 }

@@ -10,6 +10,7 @@
 #define in2 3
 #define pwm 5
 #define switchPin 4
+#define errolight A0
 
 #define enforcementMode 13
 #define THRESHOLD 20
