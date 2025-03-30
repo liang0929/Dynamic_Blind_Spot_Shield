@@ -1,3 +1,4 @@
+#include <Arduino.h>
 #include "HCSR04.h"
 
 HCSR04::HCSR04(int trig, int echo){
