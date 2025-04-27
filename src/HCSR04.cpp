@@ -20,7 +20,6 @@ float HCSR04::measureDistance(){
     digitalWrite(trigPin, LOW);
 
    long duration = pulseIn(echoPin, HIGH);
-   float distanceCm = duration * 0.034 / 2;
-    
-   return distanceCm;
+   if (duration != 0) return -1; 
+   else return duration * 0.034 / 2;
 }
