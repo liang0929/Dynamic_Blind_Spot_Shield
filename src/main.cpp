@@ -43,32 +43,20 @@ void setup(){
 
     Motor.begin();
 
-    pinMode(enforcementMode, PULLUP);
+    pinMode(enforcementMode, PULLDOWN);
+    pinMode(USerroligh, PULLDOWN);
 }
 void loop(){
-    float frontUS = HCSR04_0.measureDistance();
-    float backUS = HCSR04_1.measureDistance();
-
+    if (HCSR04_0.measureDistance() == -1 || HCSR04_0.measureDistance() == -1){
+        digitalWrite(USerroligh, HIGH);
+    }
     if (digitalRead(enforcementMode)){
-        state = true;
         heightControl(1);
-    }else
-    {
-        if (frontUS == -1 || backUS == -1){
-            //亮起警示燈
-        }else
-        {
-            if (frontUS > 0 && frontSensorHeight - frontUS >= THRESHOLD && !state) {
-                state = true;
-                heightControl(1);  // 執行上升
-            }
-
-            if (state && backUS > 0 && backSensorHeight - backUS >= THRESHOLD) {
-                state = false;
-                heightControl(0);  // 執行下降
-            }
+    }else{
+        if (HCSR04_0.measureDistance() < THRESHOLD ){
+            heightControl(1);
         }
-    } 
+    }
 }
 
 void heightControl(int action){
@@ -78,6 +66,7 @@ void heightControl(int action){
         Motor.motorControl(100, 1);
         while (digitalRead(microSwitch))
         Motor.motorControl(100, 0);
+        state = true;
         break;
     
     case 2: //下降
@@ -92,6 +81,7 @@ void heightControl(int action){
             }
         }
         Motor.motorControl(100, 0);
+        state = false;
         break;
     default:
         break;
